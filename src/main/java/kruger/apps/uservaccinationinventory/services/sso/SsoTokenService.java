@@ -2,83 +2,64 @@ package kruger.apps.uservaccinationinventory.services.sso;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.auth0.jwt.JWT;
 
-import kruger.apps.uservaccinationinventory.wsdao.sso.SsoDao;
+import kruger.apps.uservaccinationinventory.ws.responses.SsoResponse;
 
+@Service
 public class SsoTokenService {
 
-	SsoDao ssoDao;
-
-	private String token = null;
-
-	private String uri;
-	private String username;
-	private String password;
-	private String clientId;
+	@Value("${keycloak.auth-server-url}${sso.url.realms}${sso.url.realm}${sso.url.token}")
+	private String ssoTokenUrl;
+	@Value("${sso.username}")
+	private String ssoUsername;
+	@Value("${sso.password}")
+	private String ssoPassword;
+	@Value("${sso.grant_type}")
 	private String grantType;
+	@Value("${sso.client_id}")
+	private String clientId;
 
-	public String getUri(){
-		return uri;
-	}
+	private String token;
 
-	public String getUsername(){
-		return username;
-	}
-
-	public String getPassword(){
-		return password;
-	}
-
-	public String getClientId(){
-		return clientId;
-	}
-
-	public String getGrantType(){
-		return grantType;
-	}
-
-	public void setUri(String uri){
-		this.uri = uri;
-	}
-
-	public void setUsername(String username){
-		this.username = username;
-	}
-
-	public void setPassword(String password){
-		this.password = password;
-	}
-
-	public void setClientId(String clientId){
-		this.clientId = clientId;
-	}
-
-	public void setGrantType(String grantType){
-		this.grantType = grantType;
-	}
-
-	public SsoTokenService(String uri, String username, String password, String clientId, String grantType){
-		super();
-		ssoDao = new SsoDao();
-		this.uri = uri;
-		this.username = username;
-		this.password = password;
-		this.clientId = clientId;
-		this.grantType = grantType;
-	}
-
-	public String getToken(){
+	public synchronized String getToken(){
 
 		if(token == null || JWT.decode(token).getExpiresAt().before(new Date())){
-			token = ssoDao.getSsoToken(uri, username, password, clientId, grantType).getAccessToken();
+			token = getSsoToken(createSsoHttpEntityMultivalueMap(ssoUsername, ssoPassword, clientId, grantType), ssoTokenUrl);
 		}
 		return token;
 	}
 
-	public HttpHeaders createHeaderJsonWithSsoToken(String token){
-		return ssoDao.createHeaderJsonWithSsoToken(token);
+	public HttpEntity<MultiValueMap<String, String>> createSsoHttpEntityMultivalueMap(String ssoUsername, String ssoPassword, String clientId, String grantType){
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("username", ssoUsername);
+		map.add("password", ssoPassword);
+		map.add("client_id", clientId);
+		map.add("grant_type", grantType);
+		HttpEntity<MultiValueMap<String, String>> result = new HttpEntity<>(map, headers);
+		return result;
 	}
+
+	public String getSsoToken(HttpEntity<MultiValueMap<String, String>> entity, String ssoTokenUrl){
+		ResponseEntity<SsoResponse> responseEntity = new RestTemplate().exchange(ssoTokenUrl, HttpMethod.POST, entity, SsoResponse.class);
+		if(responseEntity.getStatusCode().isError()){
+			throw new RuntimeException("Error al invocar a getSsoToken, statusCode: " + responseEntity.getStatusCodeValue());
+		}
+		return responseEntity.getBody().getAccessToken();
+	}
+
 }

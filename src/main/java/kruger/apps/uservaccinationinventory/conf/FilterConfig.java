@@ -16,7 +16,7 @@ public class FilterConfig {
 		final FilterRegistrationBean<TeeFilter> filterRegBean = new FilterRegistrationBean<>();
 		TeeFilter filter = new TeeFilter();
 		filterRegBean.setFilter(filter);
-		filterRegBean.setUrlPatterns(Arrays.asList("/v1/*", "/v2/*"));
+		filterRegBean.setUrlPatterns(Arrays.asList("/v1/*"));
 		filterRegBean.setName("requestFilter");
 		filterRegBean.setAsyncSupported(Boolean.TRUE);
 		return filterRegBean;

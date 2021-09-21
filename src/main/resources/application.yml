@@ -27,8 +27,19 @@ keycloak:
     auth-server-url: ${SSO_URL_BASE}${AUTH_SERVER_URL}
     realm: ${SSO_REALM}
     ssl-required: external
-    resource: pay-api
+    resource: user-vaccination-inventory
     public-client: true
     cors: true
     use-resource-role-mappings: true
     bearer-only: true
+sso:
+  client_id: ${SSO_CLIENT_ID}
+  grant_type: ${SSO_GRANT_TYPE}
+  username: ${SSO_USERNAME}
+  password: ${SSO_PASSWORD}
+  url:
+      user:
+          registration: ${SSO_URL_USER_REGISTRATION} 
+      token: ${SSO_URL_TOKEN}
+      realms: ${SSO_URL_REALMS}
+      realm: ${SSO_REALM}  

@@ -13,7 +13,7 @@ public class UserDetails {
 	private String id;
 
 	/** The id. */
-	private Long userId;
+	private Long cedula;
 
 	/** The email. */
 	private String email;
@@ -50,7 +50,7 @@ public class UserDetails {
 		super();
 	}
 
-	public UserDetails(String id, Long userId, String userName, String firstName, String lastName, String email, Set<String> roles){
+	public UserDetails(String id, Long cedula, String userName, String firstName, String lastName, String email, Set<String> roles){
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -58,7 +58,7 @@ public class UserDetails {
 		this.lastName = lastName;
 		this.email = email;
 		this.roles = roles;
-		this.userId = userId;
+		this.cedula = cedula;
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class UserDetails {
 	 *
 	 * @return the id
 	 */
-	public Long getUserId(){
-		return userId;
+	public Long getCedula(){
+		return cedula;
 	}
 
 }

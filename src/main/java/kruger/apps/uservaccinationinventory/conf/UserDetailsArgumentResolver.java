@@ -42,7 +42,7 @@ public class UserDetailsArgumentResolver implements HandlerMethodArgumentResolve
 		roles.addAll(principal.getAccount().getRoles().stream().collect(Collectors.toSet()));
 
 		Map<String, Object> otherClaims = token.getOtherClaims();
-		Long userId = Long.valueOf(otherClaims.get("userId").toString());
+		Long userId = Long.valueOf(otherClaims.get("cedula").toString());
 
 		return new UserDetails(token.getId(), userId, token.getPreferredUsername(), token.getGivenName(), token.getFamilyName(), token.getEmail(), roles);
 	}

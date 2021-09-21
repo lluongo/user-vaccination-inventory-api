@@ -27,8 +27,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo getMetadata() {
-		ApiInfo apiInfo = new ApiInfo("Api de Pagos y Cobros Sube", "WebService para realizar transacciones de pago y cobro", "1", "",
-			new Contact("Sube Pagos", "https://www.nacionservicios.com.ar", "subepagos@nacionservicios.com.ar"), "NSSA Standard License", "https://www.nacionservicios.com.ar/license",
+		ApiInfo apiInfo = new ApiInfo("Api de registracion de vacunacion", "WebService que registra el estado de vacunacion de empleados", "1", "",
+			new Contact("Kruger", "https://www.krugercorp.com", "kruger@ec.krugercorp.com"), "Standard License", "",
 			new ArrayList<>());
 		return apiInfo;
 	}

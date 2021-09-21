@@ -6,14 +6,14 @@ import java.util.List;
 public class SsoUserRegistrationRequest {
 
 	private String email;
-	private String username;
+	private Long cedula;
 	private boolean enabled;
 	private List<SsoCredentials> credentials = new ArrayList<>();
 
-	public SsoUserRegistrationRequest(String email, String username, boolean enabled) {
+	public SsoUserRegistrationRequest(String email, Long cedula, boolean enabled) {
 		super();
 		this.email = email;
-		this.username = username;
+		this.cedula = cedula;
 		this.enabled = enabled;
 	}
 
@@ -40,13 +40,13 @@ public class SsoUserRegistrationRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public Long getCedula(){
+		return cedula;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setCedula(Long cedula){
+		this.cedula = cedula;
 	}
 
 	public void addSsoCredentials(String type, String value, boolean temporary) {

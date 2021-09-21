@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,29 +51,25 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception{
+	protected void configure(HttpSecurity http) throws Exception {
 		super.configure(http);
-		http.csrf().disable().authorizeRequests().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui/**", "/webjars/**",
-			"/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/*.wsdl", "/actuator/health")
-//				.antMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/actuator/**","/.~~spring-boot!~/restart"),
-			.permitAll().antMatchers("/v1/pay/sendMoney").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/getBalance").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/getTransactions")
-			.hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/getTransactionsByUserId").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/getLatestRecipients").hasRole("PAY_API_GENERAL")
-			.antMatchers("/v1/pay/generateDynamicMerchantQRCode").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/generateDynamicQRCodePNG").hasRole("PAY_API_GENERAL")
-			.antMatchers("/v1/pay/validateScannedQRCode").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/QrPay").hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/createWallet")
-			.hasRole("PAY_API_GENERAL").antMatchers("/v1/pay/reverseTransaction").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v1/pay/subeChargePay").hasRole("SUBE_CHARGE_OPERATION")
-			.antMatchers("/v1/pay/getTransactionReversed/*").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v1/pay/getTransaction/*").hasRole("SUBE_CHARGE_OPERATION")
-			.antMatchers("/v1/pay/getTransactionByCharge/*").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v1/pay/generateMoney").hasRole("PAY_API_GENERATE_MONEY").antMatchers("/v1/pay/wireTransfer")
-			.hasRole("PAY_API_WIRE_TRANSFER").antMatchers("/v1/pay/getTransactionToTransfer").hasRole("PAY_API_WIRE_TRANSFER").antMatchers("/v1/pay/chargeWallet").hasRole("PAY_API_BULK_CHARGE")
-
-			.antMatchers("/v2/pay/getBalance/*").hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/getTransactions").hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/getTransactionsByUserId")
-			.hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/getLatestRecipients").hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/generateDynamicMerchantQRCode").hasRole("PAY_API_GENERAL")
-			.antMatchers("/v2/pay/generateDynamicQRCodePNG").hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/reverseTransaction").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v2/pay/subeChargePay")
-			.hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v2/pay/getTransactionReversed/*").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v2/pay/getTransaction/*").hasRole("SUBE_CHARGE_OPERATION")
-			.antMatchers("/v2/pay/getTransactionByCharge/*").hasRole("SUBE_CHARGE_OPERATION").antMatchers("/v2/pay/generateMoney").hasRole("PAY_API_GENERATE_MONEY").antMatchers("/v2/pay/wireTransfer")
-			.hasRole("PAY_API_WIRE_TRANSFER").antMatchers("/v2/pay/validateOperation").hasRole("VALIDATE_OPERATION").antMatchers("/v2/pay/createWallet").hasRole("PAY_API_GENERAL")
-			.antMatchers("/v2/pay/exchange").hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/exchangeApi").hasRole("PAY_API_EXCHANGE_API").antMatchers("/v2/pay/getWallets/*")
-			.hasRole("PAY_API_GENERAL").antMatchers("/v2/pay/getTransactionToTransfer").hasRole("PAY_API_WIRE_TRANSFER").antMatchers("/v2/pay/validateScannedQRCode").hasRole("PAY_API_GENERAL")
-			.antMatchers("/v2/pay/chargeWallet").hasRole("PAY_API_BULK_CHARGE").antMatchers("/v2/pay/validateLimits").hasRole("PAY_API_VALIDATE_LIMITS").anyRequest().denyAll();
+		http.csrf().disable().authorizeRequests()
+				.antMatchers("/v2/api-docs", 
+						"/configuration/ui", 
+						"/swagger-resources", 
+						"/configuration/security",
+						"/swagger-ui.html", 
+						"/webjars/**", 
+						"/swagger-resources/configuration/ui",
+						"/swagger-resources/configuration/security", 
+						"/*.wsdl", 
+						"/actuator/health")
+				.permitAll()
+				.antMatchers(HttpMethod.POST,"/v1/employee").hasRole("ADMINISTRATOR")
+//				.antMatchers(HttpMethod.PUT,"/v1/cashIn/confirmation/*").hasRole("CASH_IN_GENERAL")
+//				.antMatchers(HttpMethod.GET,"/v1/cashIn/findByClientTrxId/*").hasRole("GET_CI_CLIENTTRXID")
+//				.antMatchers(HttpMethod.DELETE,"/v1/cashIn/pendings").hasRole("DELETE_CI_PENDINGS")
+				.anyRequest().denyAll();
 	}
 
 }
