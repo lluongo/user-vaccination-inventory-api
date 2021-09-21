@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserRegistrationRequest;
-import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserResponse;
-import kruger.apps.uservaccinationinventory.sso.services.SsoTokenService;
+import kruger.apps.uservaccinationinventory.dtos.sso.SsoUserRegistrationRequest;
+import kruger.apps.uservaccinationinventory.dtos.sso.SsoUserResponse;
+import kruger.apps.uservaccinationinventory.services.sso.SsoTokenService;
 
 @RestController
 @RequestMapping("/v1/UserVaccinationInventory")

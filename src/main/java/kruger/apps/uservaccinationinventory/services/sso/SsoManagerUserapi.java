@@ -1,4 +1,4 @@
-package kruger.apps.uservaccinationinventory.sso.services;
+package kruger.apps.uservaccinationinventory.services.sso;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserRegistrationRequest;
-import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserResponse;
+import kruger.apps.uservaccinationinventory.dtos.sso.SsoUserRegistrationRequest;
+import kruger.apps.uservaccinationinventory.dtos.sso.SsoUserResponse;
 
 @Service
 public class SsoManagerUserapi {

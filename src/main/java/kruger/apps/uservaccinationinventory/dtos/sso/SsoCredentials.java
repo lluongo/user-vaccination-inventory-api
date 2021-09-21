@@ -1,4 +1,4 @@
-package kruger.apps.uservaccinationinventory.sso.dtos;
+package kruger.apps.uservaccinationinventory.dtos.sso;
 
 public class SsoCredentials {
 	

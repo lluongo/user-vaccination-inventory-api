@@ -1,4 +1,4 @@
-package kruger.apps.uservaccinationinventory.sso.services;
+package kruger.apps.uservaccinationinventory.services.sso;
 
 import java.util.Date;
 
@@ -6,9 +6,11 @@ import org.springframework.http.HttpHeaders;
 
 import com.auth0.jwt.JWT;
 
+import kruger.apps.uservaccinationinventory.wsdao.sso.SsoDao;
+
 public class SsoTokenService {
 
-	SsoManager ssoManager;
+	SsoDao ssoDao;
 
 	private String token = null;
 
@@ -60,7 +62,7 @@ public class SsoTokenService {
 
 	public SsoTokenService(String uri, String username, String password, String clientId, String grantType){
 		super();
-		ssoManager = new SsoManager();
+		ssoDao = new SsoDao();
 		this.uri = uri;
 		this.username = username;
 		this.password = password;
@@ -71,12 +73,12 @@ public class SsoTokenService {
 	public String getToken(){
 
 		if(token == null || JWT.decode(token).getExpiresAt().before(new Date())){
-			token = ssoManager.getSsoToken(uri, username, password, clientId, grantType).getAccessToken();
+			token = ssoDao.getSsoToken(uri, username, password, clientId, grantType).getAccessToken();
 		}
 		return token;
 	}
 
 	public HttpHeaders createHeaderJsonWithSsoToken(String token){
-		return ssoManager.createHeaderJsonWithSsoToken(token);
+		return ssoDao.createHeaderJsonWithSsoToken(token);
 	}
 }

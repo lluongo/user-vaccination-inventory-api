@@ -1,4 +1,4 @@
-package kruger.apps.uservaccinationinventory.sso.dtos;
+package kruger.apps.uservaccinationinventory.dtos.sso;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

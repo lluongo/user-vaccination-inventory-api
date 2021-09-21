@@ -1,4 +1,4 @@
-package kruger.apps.uservaccinationinventory.sso.services;
+package kruger.apps.uservaccinationinventory.wsdao.sso;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,9 +9,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import kruger.apps.uservaccinationinventory.sso.dtos.SsoTokenResponse;
+import kruger.apps.uservaccinationinventory.dtos.sso.SsoTokenResponse;
 
-public class SsoManager {
+public class SsoDao {
 
 	public HttpEntity<MultiValueMap<String, String>> createSsoHttpEntityMultivalueMap(String username, String password, String clientId, String grantType){
 		HttpHeaders headers = new HttpHeaders();
