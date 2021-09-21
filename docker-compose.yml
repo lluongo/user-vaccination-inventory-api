@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    container_name: pay-api
+    image: gcr.io/ns-sube-nonprod/pay-api:v1.0.32
+    build: ./
+    ports:
+    - 8090:8090
+    env_file:
+      - pay-api.env
+    networks:
+      - db-network
+      - backend-network
+  
+networks:
+  backend-network: 
+    external: 
+      name: "backend-network"
+  db-network: 
+    external: 
+      name: "db-network"

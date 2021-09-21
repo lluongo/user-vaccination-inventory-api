@@ -1,0 +1,34 @@
+server:
+    port: ${APP_PORT}
+spring:
+    main:
+        allow-bean-definition-overriding: true
+    application:
+        name: user-vaccination-inventory
+    datasource:
+        password: ${DS_PASSWORD}
+        testWhileIdle: true
+        url: ${DS_URL}
+        username: ${DS_USERNAME}
+        validationQuery: SELECT 1
+    devtools:
+        restart:
+            enabled: true
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: ${DB_DDL_AUTO}
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            use-new-id-generator-mappings: true
+        properties:
+            hibernate:
+                show_sql: ${SHOW_SQL}
+keycloak:
+    auth-server-url: ${SSO_URL_BASE}${AUTH_SERVER_URL}
+    realm: ${SSO_REALM}
+    ssl-required: external
+    resource: pay-api
+    public-client: true
+    cors: true
+    use-resource-role-mappings: true
+    bearer-only: true
