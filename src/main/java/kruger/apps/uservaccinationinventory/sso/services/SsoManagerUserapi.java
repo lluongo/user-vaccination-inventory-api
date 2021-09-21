@@ -1,59 +1,31 @@
-package kruger.apps.uservaccinationinventory.ws;
+package kruger.apps.uservaccinationinventory.sso.services;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserRegistrationRequest;
 import kruger.apps.uservaccinationinventory.sso.dtos.SsoUserResponse;
-import kruger.apps.uservaccinationinventory.sso.services.SsoTokenService;
 
-@RestController
-@RequestMapping("/v1/UserVaccinationInventory")
-public class UserVaccinationInventoryWs {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserVaccinationInventoryWs.class);
+@Service
+public class SsoManagerUserapi {
 
 	@Value("${sso.url.base}${sso.url.user.registration}")
 	private String ssoURIUser;
 
 	@Autowired
+	@Qualifier("masterSsoTokenService")
 	private SsoTokenService masterSsoTokenService;
-
-	@RequestMapping(value = "/user", method = RequestMethod.PUT, produces = "application/json")
-	@ApiOperation(value = "Crear nueva billetera asociadas a un usuario")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = String.class), @ApiResponse(code = 500, message = "Internal Server Error", response = String.class),
-			@ApiResponse(code = 400, message = "Bad Request", response = String.class)
-	})
-	public @ResponseBody ResponseEntity<?> createUser(){
-
-		try{
-
-		} catch(Exception e){
-			LOGGER.info(e.getMessage());
-			return new ResponseEntity<>("Error Interno", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return new ResponseEntity<>("Se creo la cuenta Sube correctamente", HttpStatus.OK);
-	}
 
 	public String createSsoUser(String username, String email, String password){
 		HttpHeaders headers = masterSsoTokenService.createHeaderJsonWithSsoToken(masterSsoTokenService.getToken());
@@ -67,8 +39,7 @@ public class UserVaccinationInventoryWs {
 		if(responseEntity.getStatusCode().isError()){
 			throw new RuntimeException("Error al invocar al SSO para crear nuevo usuario, statusCode: " + responseEntity.getStatusCodeValue());
 		}
-		// return UserUtil.getUserIdFromUrl(responseEntity.getHeaders().getLocation().toString());
-		return "dsfgsd";
+		return "dfgsdfg";
 	}
 
 	public SsoUserResponse getSsoUserData(String ssoUserId){
