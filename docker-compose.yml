@@ -1,21 +1,37 @@
 version: '3.8'
 services:
-  app:
-    container_name: pay-api
-    image: gcr.io/ns-sube-nonprod/pay-api:v1.0.32
+  dbpostgresql:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - dbpostgresql-variables.env
+ 
+  uservaccinationinventory:
+    container_name: user-vaccination-inventory
+    image: user-vaccination-inventory
     build: ./
     ports:
-    - 8090:8090
+      - "8082:8082"
+    depends_on:
+      - dbpostgresql
     env_file:
-      - pay-api.env
-    networks:
-      - db-network
-      - backend-network
-  
-networks:
-  backend-network: 
-    external: 
-      name: "backend-network"
-  db-network: 
-    external: 
-      name: "db-network"
+      - user-vaccination-inventory.env
+
+  keycloak:
+      image: quay.io/keycloak/keycloak:15.0.2
+      restart: always
+      env_file:
+      - keycloak-variables.env
+      ports:
+        - 8080:8080
+      depends_on:
+        - dbpostgresql 
+#      volumes:
+#        - ./assets/kruger-realm-complete.json:/tmp/kruger-realm-complete.json
+    
+volumes:
+  pgdata: {}

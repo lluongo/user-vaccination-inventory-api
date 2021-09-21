@@ -10,5 +10,5 @@ RUN --mount=type=cache,target=/root/.m2/repository mvn clean package -DskipTests
 FROM openjdk:11-jre
 EXPOSE 8090
 WORKDIR /app
-CMD exec java $JAVA_OPTS -jar pay-api.jar
-COPY --from=build /build/target/pay-api*.jar /app/pay-api.jar
+CMD exec java $JAVA_OPTS -jar user-vaccination-inventory.jar
+COPY --from=build /build/target/user-vaccination-inventory*.jar /app/user-vaccination-inventory.jar
