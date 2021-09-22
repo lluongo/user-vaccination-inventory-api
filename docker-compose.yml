@@ -10,16 +10,16 @@ services:
     env_file:
       - dbpostgresql-variables.env
  
-#  uservaccinationinventory:
-#    container_name: user-vaccination-inventory
-#    image: user-vaccination-inventory
-#    build: ./
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - dbpostgresql
-#    env_file:
-#      - user-vaccination-inventory.env
+  uservaccinationinventory:
+    container_name: user-vaccination-inventory
+    image: user-vaccination-inventory
+    build: ./
+    ports:
+      - "8082:8082"
+    depends_on:
+      - dbpostgresql
+    env_file:
+      - user-vaccination-inventory.env
 
   keycloak:
       image: quay.io/keycloak/keycloak:15.0.2
