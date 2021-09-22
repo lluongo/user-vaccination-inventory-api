@@ -6,6 +6,7 @@ La aplicacion esta construida bajo estas tecnologias :
 	--> java lenguajes de desarrollo
 	--> postgres como tecnologia de base de datos
 	--> Docker y Docker-Compose como tecnologia de contenerizacion
+	--> swagger como tecnologia de documentacion
 
 Toda la informacion de la configuracion de cada servicio esta dentro de los archivos :
 
