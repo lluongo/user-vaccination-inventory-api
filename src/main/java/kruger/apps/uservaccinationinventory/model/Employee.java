@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -28,9 +28,18 @@ public class Employee {
 	private String cellPhoneNumber;
 	private boolean isVaccinated;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "statusVaccinationId")
 	private VaccinationStatus vaccinationStatus;
+
+	public Employee(Long cedula, Date birthDate, String address, String cellPhoneNumber, boolean isVaccinated, VaccinationStatus vaccinationStatus){
+		this.cedula = cedula;
+		this.birthDate = birthDate;
+		this.address = address;
+		this.cellPhoneNumber = cellPhoneNumber;
+		this.isVaccinated = isVaccinated;
+		this.vaccinationStatus = vaccinationStatus;
+	}
 
 	public Employee(Long cedula, String name, String lastName, String email){
 		this.cedula = cedula;

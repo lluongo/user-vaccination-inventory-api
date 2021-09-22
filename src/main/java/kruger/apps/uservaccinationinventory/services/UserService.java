@@ -38,6 +38,10 @@ public class UserService {
 		return ssoDao.createSsoUser(requestNewEmployee);
 	}
 
+	public Employee findEmployee(Long cedula){
+		return employeeRepository.getOne(cedula);
+	}
+	
 	public List<Employee> findVaccinatedByStatus(boolean isVaccinated){
 		return employeeRepository.findEmployeeByIsVaccinated(isVaccinated);
 	}
