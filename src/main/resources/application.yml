@@ -29,9 +29,10 @@ keycloak:
     ssl-required: external
     resource: user-vaccination-inventory
     public-client: true
-    cors: true
+    verify-token-audience: true
     use-resource-role-mappings: true
     bearer-only: true
+    confidential-port: 0
 sso:
   client_id: ${SSO_CLIENT_ID}
   grant_type: ${SSO_GRANT_TYPE}

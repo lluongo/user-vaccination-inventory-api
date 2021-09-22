@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="prettyJSON" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+			<jsonGeneratorDecorator class="net.logstash.logback.decorate.PrettyPrintingJsonGeneratorDecorator" />
+			<providers>
+				<timestamp>
+					<fieldName>ts</fieldName>
+					<timeZone>America/Argentina/Buenos_Aires</timeZone>
+				</timestamp>
+				<nestedField>
+					<fieldName>http_request</fieldName>
+					<providers>
+						<remoteHost />
+						<method />
+						<requestedUri />
+						<statusCode />
+						<contentLength />
+						<elapsedTime />
+					</providers>
+				</nestedField>
+			</providers>
+		</encoder>
+	</appender>
+	<appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<fieldName>ts</fieldName>
+					<timeZone>America/Argentina/Buenos_Aires</timeZone>
+				</timestamp>
+				<nestedField>
+					<fieldName>http_request</fieldName>
+					<providers>
+						<remoteHost />
+						<method />
+						<requestedUri />
+						<statusCode />
+						<contentLength />
+						<elapsedTime />
+					</providers>
+				</nestedField>
+			</providers>
+		</encoder>
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator class="ch.qos.logback.access.net.URLEvaluator">
+				<URL>/favicon.ico</URL>
+				<URL>/actuator</URL>
+			</evaluator>
+			<OnMatch>DENY</OnMatch>
+			<OnMismatch>NEUTRAL</OnMismatch>
+		</filter>
+	</appender>
+	<springProfile name="local">
+		<appender-ref ref="prettyJSON" />
+	</springProfile>
+	<springProfile name="!local">
+		<appender-ref ref="JSON" />
+	</springProfile>
+</configuration>

@@ -3,6 +3,7 @@ package kruger.apps.uservaccinationinventory.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,9 +26,10 @@ public class Employee {
 	private String address;
 	private String addressNumber;
 	private String cellPhoneNumber;
+	private boolean isVaccinated;
 
-	@ManyToOne
-	@JoinColumn(name = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "statusVaccinationId")
 	private VaccinationStatus vaccinationStatus;
 
 	public Employee(Long cedula, String name, String lastName, String email){
@@ -121,6 +123,14 @@ public class Employee {
 
 	public void setInsertionDate(Date insertionDate){
 		this.insertionDate = insertionDate;
+	}
+
+	public boolean isVaccinated(){
+		return isVaccinated;
+	}
+
+	public void setVaccinated(boolean isVaccinated){
+		this.isVaccinated = isVaccinated;
 	}
 
 }
